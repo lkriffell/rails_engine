@@ -6,6 +6,12 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 require 'csv'
+InvoiceItem.destroy_all
+Transaction.destroy_all
+Item.destroy_all
+Invoice.destroy_all
+Merchant.destroy_all
+Customer.destroy_all
 
 CSV.foreach(Rails.root.join('lib/seed_csv/customers.csv'), headers: true) do |row|
   Customer.create( {
@@ -66,8 +72,12 @@ CSV.foreach(Rails.root.join('lib/seed_csv/invoice_items.csv'), headers: true) do
     item_id: row["item_id"],
     invoice_id: row["invoice_id"],
     quantity: row["quantity"],
-    unit_price: row["unit_price"],
+    unit_price: (row["unit_price"].to_f * 0.01).round(2),
     created_at: row["created_at"],
     updated_at: row["updated_at"]
   } )
+end
+
+ActiveRecord::Base.connection.tables.each do |t|
+  ActiveRecord::Base.connection.reset_pk_sequence!(t)
 end
