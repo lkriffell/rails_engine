@@ -1,23 +1,29 @@
 class Api::V1::SearchController < ApplicationController
   def index
     search_param = request.query_parameters.first
-    if params['resource'] == 'merchant'
-      render json: Merchant.where("#{search_param.first} LIKE '#{search_param.last}'")
-    elsif params['resource'] == 'item' && !search_param.last.to_i
-      render json: Item.where("#{search_param.first} LIKE '#{search_param.last}'")
-    elsif search_param.last.to_i
-      render json: Item.where("#{search_param.first}": search_param.last)
+    attribute = search_param.first
+    value = search_param.last.gsub("'", "''")
+    query = "LOWER(#{attribute}) LIKE LOWER('%#{value}%')"
+    if params['resource'] == 'merchants'
+      render json: MerchantSerializer.new(Merchant.where("#{query}"))
+    elsif params['resource'] == 'items' && value.count("a-zA-Z") > 0
+      render json: ItemSerializer.new(Item.where("#{query}"))
+    elsif value.to_i
+      render json: ItemSerializer.new(Item.where("#{attribute}": value))
     end
   end
 
   def show
     search_param = request.query_parameters.first
-    if params['resource'] == 'merchant'
-      render json: Merchant.find_by("#{search_param.first} LIKE '#{search_param.last}'")
-    elsif params['resource'] == 'item' && !search_param.last.to_i
-      render json: Item.find_by("#{search_param.first} LIKE '#{search_param.last}'")
-    elsif search_param.last.to_i
-      render json: Item.find_by("#{search_param.first}": search_param.last)
+    attribute = search_param.first
+    value = search_param.last.gsub("'", "''")
+    query = "LOWER(#{attribute}) LIKE LOWER('%#{value}%')"
+    if params['resource'] == 'merchants'
+      render json: MerchantSerializer.new(Merchant.where("#{query}").first)
+    elsif params['resource'] == 'items' && value.count("a-zA-Z") > 0
+      render json: ItemSerializer.new(Item.where("#{query}").first)
+    elsif value.to_i
+      render json: ItemSerializer.new(Item.find_by("#{attribute}": value))
     end
   end
 end
