@@ -3,6 +3,6 @@ FactoryBot.define do
 
     customer_id { nil }
     merchant_id { nil }
-    status { "Success" }
+    status { "shipped" }
   end
 end
