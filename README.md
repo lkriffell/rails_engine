@@ -97,10 +97,11 @@ env running
 #### Items
   1. ```get 'api/v1/item/find?:attribute=:value'``` responds with the item that has the same or similar :value for the specified :attribute
   2. ```get 'api/v1/item/find_all?:attribute=:value'``` responds with all items that have the same or similar :value for the specified :attribute
-  :attributes - name, description, unit_price, merchant_id
+  - :attributes - name, description, unit_price, merchant_id
 #### Merchants
   1. ```get 'api/v1/merchants/find?name=Als+Toy+Barn'``` responds with the merchant that has the same or similar :value for the specified :attribute
   2. ```get 'api/v1/merchants/find_all?name=barn'``` responds with all merchants that have the same or similar :value for the specified :attribute
+  - :attributes - name
 ### Business Endpoints
 #### Merchants
   1. ```get 'api/v1/merchants/most_revenue?quantity=2'``` responds with a list of `quantity` size based on the merchants with the most revenue
