@@ -12,15 +12,10 @@
   - The project requirements are found [here](https://backend.turing.io/module3/projects/rails_engine/requirements)
 
 ### Deployment
-  - App is hosted on [Heroku](https://viewing-party-lr-cc.herokuapp.com/)
+  - App is hosted on [Heroku](https://rails-engine-lr.herokuapp.com/)
 
 ### Authors
   - **Logan Riffell** - [GitHub](https://github.com/lkriffell)
-
-### Versions
-
-  - Ruby 2.5.3
-  - Rails 5.2.4.3
 
 ### Schema
 
@@ -78,3 +73,37 @@ env running
 ## Built With
   - Ruby version [2.5.3](https://ruby-doc.org/core-2.5.3/)
   - Ruby on Rails version [5.2.4.3](https://rubygems.org/gems/rails/versions/5.2.4.3)
+  
+## Endpoints
+### Crud Endpoints
+#### Items
+  - get '/api/v1/items' responds with all items currently in the database
+  - get '/api/v1/items/:id' responds with one item based on it's id
+  - post 'api/v1/items' creates an item in the database
+  - put 'api/v1/items/:id' updates an item in the database based on it's id
+  - delete 'api/v1/items/:id' deletes an item in the database based on it's id
+#### Merchants
+  - get '/api/v1/merchants' responds with all merchants currently in the database
+  - get '/api/v1/merchants/:id' responds with one merchant based on it's id
+  - post 'api/v1/merchants' creates a merchant in the database
+  - put 'api/v1/merchants/:id' updates a merchant in the database based on it's id
+  - delete 'api/v1/merchants/:id' deletes a merchant in the database based on it's id
+### Relationship Endpoints
+#### Items
+  - get '/api/v1/items/:id/merchant' responds with the merchant that sells the item with that id
+#### Merchants
+  - get '/api/v1/merchants/:id/items' responds with a list of items sold by the merchant with that id
+### Search Endpoints
+#### Items
+  - get 'api/v1/item/find?:attribute=:value' responds with the item that has the same or similar :value for the specified :attribute
+  - get 'api/v1/item/find_all?:attribute=:value' responds with all items that have the same or similar :value for the specified :attribute
+  :attributes - name, description, unit_price, merchant_id
+#### Merchants
+  - get 'api/v1/merchants/find?name=Als+Toy+Barn' responds with the merchant that has the same or similar :value for the specified :attribute
+  - get 'api/v1/merchants/find_all?name=barn' responds with all merchants that have the same or similar :value for the specified :attribute
+### Business Endpoints
+#### Merchants
+  - get 'api/v1/merchants/most_revenue?quantity=2' responds with a list of `quantity` size based on the merchants with the most revenue
+  - get 'api/v1/merchants/most_items?quantity=2' responds with a list of `quantity` size based on the merchants with the most items succsessfully sold
+  - get 'api/v1/revenue?start=2020-10-20&end=2020-10-23' responds with the total revenue earned by all merchants within the dates specified
+  - get 'api/v1/merchants/:id/revenue' responds with the total revenue of one merchant based on the id
