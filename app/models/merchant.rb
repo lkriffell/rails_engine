@@ -27,13 +27,12 @@ class Merchant < ApplicationRecord
   end
 
   def self.total_revenue(start, stop)
-    select("merchants.*, SUM(invoice_items.quantity * invoice_items.unit_price) as revenue")
+    select("merchants.*")
       .joins(invoices: [:invoice_items, :transactions])
-      .where(invoice_items: {created_at: "BETWEEN '#{start}' AND '#{stop}'"})
+      .where(invoice_items: "created_at.to_s BETWEEN '#{start} 00:00:00 UTC' AND '#{stop} 00:00:00 UTC'")
       .where(invoices: {status: 'shipped'})
       .where(transactions: {result: 'success'})
-      .group('merchants.id')
-
+      .sum('invoice_items.quantity * invoice_items.unit_price')
   end
 
   def merchant_revenue
@@ -42,7 +41,7 @@ class Merchant < ApplicationRecord
     .where(invoices: {status: 'shipped'})
     .where(transactions: {result: "success"})
     .joins(:invoice_items)
-    .sum("invoice_items.quantity * invoice_items.unit_price")).round(2)
+    .sum("invoice_items.quantity * invoice_items.unit_price"))
   end
 
   def items_sold
