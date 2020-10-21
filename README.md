@@ -1,4 +1,4 @@
-# Viewing Party
+# Rails Engine
 
   - This is the base repo for the [Rails Engine](https://backend.turing.io/module3/projects/rails_engine) used for Turing's Backend Module 3.
   - This is the frontend repo: [Rails Driver](https://github.com/lkriffell/rails_driver)
