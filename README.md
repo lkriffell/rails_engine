@@ -58,7 +58,7 @@ env running
 
 ## Running the Spec Harness
 1. run the Rails Engine server with `rails s`
-2. In a new terminal window cd into Rails Driver and run `bundle exec rspec spec/features/harness_spec.rb
+2. In a new terminal window cd into Rails Driver and run `bundle exec rspec spec/features/harness_spec.rb`
 
 ### Testing Tools
   - Factory Bot
