@@ -208,19 +208,17 @@ describe "Merchants API" do
     end
 
     it "can return all revenue between a date range" do
-      get "http://localhost:3000/api/v1/revenue?start=2020-10-18&end=2020-10-20"
+      get "http://localhost:3000/api/v1/revenue?start=2020-10-20&end=2020-10-23"
 
       found_merchants = JSON.parse(response.body, symbolize_names: true)
 
       expect(response).to be_successful
-      expect(found_merchants[:data]).to be_an(Array)
-      expect(found_merchants[:data].size).to eq(2)
-      expect(@merchant1.name).to eq(found_merchants[:data].first[:attributes][:name])
-      expect(@merchant1.id).to eq(found_merchants[:data].first[:id])
-      expect(12).to eq(found_merchants[:data].first[:attributes][:items_sold])
-      expect(@merchant3.name).to eq(found_merchants[:data].last[:attributes][:name])
-      expect(@merchant3.id).to eq(found_merchants[:data].last[:id])
-      expect(10).to eq(found_merchants[:data].last[:attributes][:items_sold])
+
+      expect(found_merchants[:data]).to be_a(Hash)
+      expect(found_merchants[:data].size).to eq(1)
+      expect(found_merchants[:data][:attributes][:revenue]).to eq(354.0)
+      expect(found_merchants[:data][:attributes][:start_date]).to eq("2020-10-20")
+      expect(found_merchants[:data][:attributes][:stop_date]).to eq("2020-10-23")
     end
     it "can return total revenue for one merchant" do
       get "http://localhost:3000/api/v1/merchants/#{@merchant1.id}/revenue"
