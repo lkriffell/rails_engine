@@ -3,7 +3,7 @@ class Api::V1::TotalsController < ApplicationController
     start_date = request.query_parameters['start']
     stop_date = request.query_parameters['end']
     total_revenue = Merchant.total_revenue(start_date, stop_date)
-    render json: revenue_serializer(total_revenue)
+    render json: revenue_serializer(total_revenue, start_date, stop_date)
   end
 
   def show
@@ -13,10 +13,12 @@ class Api::V1::TotalsController < ApplicationController
 
   private
 
-    def revenue_serializer(revenue)
+    def revenue_serializer(revenue, start_date, stop_date)
       {
         "data": {
           "attributes": {
+            "start_date": start_date,
+            "stop_date": stop_date,
             "revenue": revenue
           }
         }
