@@ -185,10 +185,10 @@ describe "Merchants API" do
       expect(found_merchants[:data].size).to eq(2)
       expect(@merchant1.name).to eq(found_merchants[:data].first[:attributes][:name])
       expect(@merchant1.id.to_s).to eq(found_merchants[:data].first[:id])
-      expect(164.0).to eq(found_merchants[:data].first[:attributes][:revenue])
+      expect(164.0).to eq(found_merchants[:data].first[:attributes][:total_revenue])
       expect(@merchant3.name).to eq(found_merchants[:data].last[:attributes][:name])
       expect(@merchant3.id.to_s).to eq(found_merchants[:data].last[:id])
-      expect(100).to eq(found_merchants[:data].last[:attributes][:revenue])
+      expect(100).to eq(found_merchants[:data].last[:attributes][:total_revenue])
     end
 
     it "can find merchants with the most items sold" do
@@ -232,7 +232,7 @@ describe "Merchants API" do
       expect(merchant_revenue[:data]).to be_a(Hash)
       expect(merchant_revenue[:data][:id]).to eq(@merchant1.id.to_s)
       expect(merchant_revenue[:data][:attributes][:name]).to eq(@merchant1.name)
-      expect(merchant_revenue[:data][:attributes][:revenue]).to eq(@merchant1.merchant_revenue)
+      expect(merchant_revenue[:data][:attributes][:total_revenue]).to eq(@merchant1.merchant_revenue)
       expect(merchant_revenue[:data][:attributes][:items_sold]).to eq(12)
     end
   end
