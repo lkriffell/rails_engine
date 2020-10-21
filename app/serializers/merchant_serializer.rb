@@ -6,7 +6,7 @@ class MerchantSerializer
 
 
 
-  attribute :revenue do |object|
+  attribute :total_revenue do |object|
     object.merchant_revenue
   end
 
