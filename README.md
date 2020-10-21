@@ -3,6 +3,7 @@
   - This is the base repo for the [Rails Engine](https://backend.turing.io/module3/projects/rails_engine) used for Turing's Backend Module 3.
   - This is the frontend repo: [Rails Driver](https://github.com/lkriffell/rails_driver)
   - This is our completed repo for [Rails Engine](https://github.com/lkriffell/rails_engine/)
+  - Navigate [here](https://rails-engine-lr.herokuapp.com/) to see the list of possible calls and to try them out!
 
 ### About this Project
 
@@ -12,7 +13,8 @@
   - The project requirements are found [here](https://backend.turing.io/module3/projects/rails_engine/requirements)
 
 ### Deployment
-  - App is hosted on [Heroku](https://rails-engine-lr.herokuapp.com/)
+  - The api is hosted [here](https://rails-engine-lr.herokuapp.com/)
+  - The frontend is hosted [here](https://rails-engine-lr.herokuapp.com/)
 
 ### Authors
   - **Logan Riffell** - [GitHub](https://github.com/lkriffell)
