@@ -1,10 +1,10 @@
 class Api::V1::SearchController < ApplicationController
   def index
-    search_query
+    check_if_attribute_exists
   end
 
   def show
-    search_query
+    check_if_attribute_exists
   end
 
   private
@@ -36,5 +36,23 @@ class Api::V1::SearchController < ApplicationController
       if action == 'index'; render json: ItemSerializer.new(results)
       else render json: ItemSerializer.new(results.first)
       end
+    end
+
+    def check_if_attribute_exists
+      attribute = request.query_parameters.first.first
+      if Item.column_names.include?(attribute) || Merchant.column_names.include?(attribute)
+        search_query
+      else
+        error_message = "#{attribute} is not an attribute of #{params['resource']}!"
+        render json: error_serializer(error_message)
+      end
+    end
+
+    def error_serializer(error)
+      {
+        "data": {
+          "message": error
+        }
+      }
     end
 end

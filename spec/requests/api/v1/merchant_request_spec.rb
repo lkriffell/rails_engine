@@ -113,6 +113,20 @@ describe "Merchants API" do
     end
   end
   describe 'Search Endpoints' do
+    it "returns an error if search query input wrong" do
+      merchant = create(:merchant, name: "Al's Toy Barn")
+
+      expect(Merchant.count).to eq(1)
+
+      get "/api/v1/merchants/find?wrong_attribute=Al's+Toy+Barn"
+
+      found_merchant = JSON.parse(response.body, symbolize_names: true)
+
+      expect(response).to be_successful
+      expect(found_merchant[:data]).to be_a(Hash)
+      expect(found_merchant[:data][:message]).to eq("wrong_attribute is not an attribute of merchants!")
+    end
+
     it "can find a merchant through querying it's name" do
       merchant = create(:merchant, name: "Al's Toy Barn")
 
