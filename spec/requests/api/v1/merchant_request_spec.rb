@@ -114,7 +114,7 @@ describe "Merchants API" do
   end
   describe 'Search Endpoints' do
     it "returns an error if search query input wrong" do
-      merchant = create(:merchant, name: "Al's Toy Barn")
+      create(:merchant, name: "Al's Toy Barn")
 
       expect(Merchant.count).to eq(1)
 
