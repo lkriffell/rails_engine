@@ -80,10 +80,7 @@ describe "Merchants API" do
   describe 'Relationships' do
     it "can find a merchants items through merchant id" do
       merchant = create(:merchant)
-      create(:item, merchant_id: merchant.id)
-      create(:item, merchant_id: merchant.id)
-      create(:item, merchant_id: merchant.id)
-      create(:item, merchant_id: merchant.id)
+      create_list(:item, 4, merchant_id: merchant.id)
 
       expect(Merchant.count).to eq(1)
 
@@ -99,14 +96,11 @@ describe "Merchants API" do
 
     it "can find a merchant through its item" do
       merchant = create(:merchant)
-      create(:item, merchant_id: merchant.id)
-      create(:item, merchant_id: merchant.id)
-      create(:item, merchant_id: merchant.id)
-      item = create(:item, merchant_id: merchant.id)
+      create_list(:item, 4, merchant_id: merchant.id)
 
       expect(Merchant.count).to eq(1)
 
-      get "/api/v1/items/#{item.id}/merchant"
+      get "/api/v1/items/#{Item.last.id}/merchant"
 
       items = JSON.parse(response.body, symbolize_names: true)
 
@@ -124,7 +118,7 @@ describe "Merchants API" do
 
       expect(Merchant.count).to eq(1)
 
-      get "http://localhost:3000/api/v1/merchants/find?name=Al's+Toy+Barn"
+      get "/api/v1/merchants/find?name=Al's+Toy+Barn"
 
       found_merchant = JSON.parse(response.body, symbolize_names: true)
 
@@ -138,7 +132,7 @@ describe "Merchants API" do
       merchant1 = create(:merchant, name: "Al's Toy Barn")
       merchant2 = create(:merchant, name: "Al's Koi Barn")
 
-      get "http://localhost:3000/api/v1/merchants/find_all?name=BARN"
+      get "/api/v1/merchants/find_all?name=BARN"
 
       found_merchants = JSON.parse(response.body, symbolize_names: true)
 
@@ -148,6 +142,8 @@ describe "Merchants API" do
       expect(found_merchants[:data].size).to eq(2)
       expect(merchant1.name).to eq(found_merchants[:data].first[:attributes][:name])
       expect(merchant1.id.to_s).to eq(found_merchants[:data].first[:id])
+      expect(merchant2.name).to eq(found_merchants[:data].last[:attributes][:name])
+      expect(merchant2.id.to_s).to eq(found_merchants[:data].last[:id])
     end
   end
 
@@ -175,7 +171,7 @@ describe "Merchants API" do
     end
 
     it "can find merchants with the most revenue" do
-      get "http://localhost:3000/api/v1/merchants/most_revenue?quantity=2"
+      get "/api/v1/merchants/most_revenue?quantity=2"
 
       found_merchants = JSON.parse(response.body, symbolize_names: true)
 
@@ -192,7 +188,7 @@ describe "Merchants API" do
     end
 
     it "can find merchants with the most items sold" do
-      get "http://localhost:3000/api/v1/merchants/most_items?quantity=2"
+      get "/api/v1/merchants/most_items?quantity=2"
 
       found_merchants = JSON.parse(response.body, symbolize_names: true)
 
@@ -208,7 +204,7 @@ describe "Merchants API" do
     end
 
     it "can return all revenue between a date range" do
-      get "http://localhost:3000/api/v1/revenue?start=2020-10-20&end=2020-10-23"
+      get "/api/v1/revenue?start=2020-10-20&end=2020-10-23"
 
       found_merchants = JSON.parse(response.body, symbolize_names: true)
 
@@ -221,7 +217,7 @@ describe "Merchants API" do
       expect(found_merchants[:data][:attributes][:stop_date]).to eq("2020-10-23")
     end
     it "can return total revenue for one merchant" do
-      get "http://localhost:3000/api/v1/merchants/#{@merchant1.id}/revenue"
+      get "/api/v1/merchants/#{@merchant1.id}/revenue"
 
       merchant_revenue = JSON.parse(response.body, symbolize_names: true)
 
