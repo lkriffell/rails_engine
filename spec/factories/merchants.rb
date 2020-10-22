@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :merchant do
-    name { Faker::Cannabis.brand }
+    name { Faker::Commerce.department }
   end
 end
