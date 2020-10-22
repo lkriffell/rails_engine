@@ -18,7 +18,7 @@ class Api::V1::SearchController < ApplicationController
         results = Merchant.where("#{query}")
         return_based_on_merchant(params["action"], results)
       elsif params['resource'] == 'items' && value.count("a-zA-Z") > 0
-        results = render json: Item.where("#{query}")
+        results = Item.where("#{query}")
         return_based_on_item(params["action"], results)
       elsif value.to_i
         results = Item.where("#{attribute}": value)
@@ -27,14 +27,18 @@ class Api::V1::SearchController < ApplicationController
     end
 
     def return_based_on_merchant(action, results)
-      if action == 'index'; render json: MerchantSerializer.new(results)
-      else render json: MerchantSerializer.new(results.first)
+      if action == 'index'
+        render json: MerchantSerializer.new(results)
+      elsif action == 'show'
+        render json: MerchantSerializer.new(results.first)
       end
     end
 
     def return_based_on_item(action, results)
-      if action == 'index'; render json: ItemSerializer.new(results)
-      else render json: ItemSerializer.new(results.first)
+      if action == 'index'
+        render json: ItemSerializer.new(results)
+      elsif action == 'show'
+        render json: ItemSerializer.new(results.first)
       end
     end
 
