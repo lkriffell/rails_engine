@@ -46,6 +46,23 @@ describe "Items API" do
       expect(item.merchant).to eq(@merchant)
     end
 
+    it "can not create a new item with bad params" do
+      item_params = { name: 'Corvette',
+                      describer: 'A car',
+                      price: 47,
+                      merchant: @merchant.id
+                    }
+      headers = {"CONTENT_TYPE" => "application/json"}
+
+      post "/api/v1/items", headers: headers, params: JSON.generate(item_params)
+      item = Item.last
+
+      expect(response).to be_successful
+
+      expect(Item.all.count).to eq(0)
+      expect(item).to eq(nil)
+    end
+
     it "can update an existing item" do
       id = create(:item, merchant_id: @merchant.id).id
       previous_name = Item.last.name
